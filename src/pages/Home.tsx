@@ -6,6 +6,8 @@ import { PokeCard } from "../components/PokemonCard";
 
 export function Home(){
 
+    const [limit] = useState(151);
+
     const [pokes, setPokes] = useState<Poke[]>([])
     const [search, setSearch] = useState('')
 
@@ -20,10 +22,10 @@ export function Home(){
     }, [])*/
 
     useEffect(() => {
-        const ids = [1, 4, 7]; // ou vindo do fetchPokes de listagem
-        Promise.all(ids.map(id => fetchPokeDetail(id)))
-          .then(setPokes)  // onde setPokes recebe Poke[]
-      }, []);
+        const ids = Array.from({ length: limit }, (_, i) => i + 1);
+        Promise.all(ids.map(fetchPokeDetail))
+          .then(setPokes);
+      }, [limit]);
 
     return (
         <Container>

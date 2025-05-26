@@ -1,8 +1,8 @@
 export interface Poke{
 
-    id: string;
+    id: number;
     name: string;
-    type: string;
+    types: string[];
     flavor_text: string;
     sprite: string;
 

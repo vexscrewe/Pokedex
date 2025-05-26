@@ -12,7 +12,7 @@ export function PokeCard ({poke}: Props){
             <Link to={`/poke/${poke.id}`} />
             <Image src={poke.sprite} />
             <Title>{poke.name}</Title>
-            <Info>{poke.flavor_text} - {poke.type}</Info>
+            <Info>{poke.types}</Info>
         </Card>
     )
 

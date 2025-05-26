@@ -35,7 +35,7 @@ export async function fetchPokes (search = '') {
 
 }
 
-export async function fetchPokeDetail(id: string): Promise<Poke> {
+export async function fetchPokeDetail(id: number): Promise<Poke> {
     // dispara as duas requisições em paralelo
     const [pokRes, specRes] = await Promise.all([
       api.get<PokemonResponse>(`pokemon/${id}`),
