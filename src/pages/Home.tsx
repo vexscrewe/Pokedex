@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Grid, Input, SearchBox, Title } from "./Home.styles";
 import type { Poke } from "../types/Poke";
-import { fetchPokes } from "../services/pokedexAPI";
+import { fetchPokeDetail, fetchPokes } from "../services/pokedexAPI";
 import { PokeCard } from "../components/PokemonCard";
 
 export function Home(){
@@ -15,9 +15,15 @@ export function Home(){
         setPokes(result)
     }
 
-    useEffect(() => {
+    /*useEffect(() => {
         fetchPokes().then(setPokes)
-    }, [])
+    }, [])*/
+
+    useEffect(() => {
+        const ids = [1, 4, 7]; // ou vindo do fetchPokes de listagem
+        Promise.all(ids.map(id => fetchPokeDetail(id)))
+          .then(setPokes)  // onde setPokes recebe Poke[]
+      }, []);
 
     return (
         <Container>
