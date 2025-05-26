@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Grid, Input, SearchBox, Title } from "./Home.styles";
 import type { Poke } from "../types/Poke";
-import { fetchPokeDetail, fetchPokes } from "../services/pokedexAPI";
+import { fetchPokeDetail } from "../services/pokedexAPI";
 import { PokeCard } from "../components/PokemonCard";
 
 export function Home(){
@@ -12,14 +12,22 @@ export function Home(){
     const [search, setSearch] = useState('')
 
     const handleSearch = async () => {
-
-        const result = await fetchPokes(search)
-        setPokes(result)
-    }
-
-    /*useEffect(() => {
-        fetchPokes().then(setPokes)
-    }, [])*/
+        if (!search.trim()) {
+          // se o campo ficou vazio, volta pro carregamento padrão (por exemplo, 20 primeiros)
+          const ids = Array.from({ length: 20 }, (_, i) => i + 1);
+          const bulk = await Promise.all(ids.map(fetchPokeDetail));
+          setPokes(bulk.filter(p => p !== null) as Poke[]);
+          return;
+        }
+      
+        // busca exata por nome
+        const result = await fetchPokeDetail(search.toLowerCase());
+        if (result) {
+          setPokes([result]);
+        } else {
+          setPokes([]);              // nenhum encontrado
+        }
+      };
 
     useEffect(() => {
         const ids = Array.from({ length: limit }, (_, i) => i + 1);
