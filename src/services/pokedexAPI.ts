@@ -11,6 +11,7 @@ interface PokeResponse {
 }
 
 interface PokemonResponse {
+    id:number;
     types: { type: { name: string } }[];
     sprites: { front_default: string };
   }
@@ -23,32 +24,20 @@ interface PokemonResponse {
     }[];
   }
 
-export async function fetchPokes (search = '') {
-    
-    try {
-        const response = await api.get<PokeResponse>(`pokemon/${search}`)
-        return response.data.pokes ?? []
-    } catch (error) {
-        console.log('Erro ao buscar pokemons: ', error);
-        return[];
-    }
 
-}
-
-export async function fetchPokeDetail(id: number): Promise<Poke> {
-    // dispara as duas requisições em paralelo
-    const [pokRes, specRes] = await Promise.all([
-      api.get<PokemonResponse>(`pokemon/${id}`),
-      api.get<SpeciesResponse>(`pokemon-species/${id}`),
-    ]);
+export async function fetchPokeDetail(idOrName: string | number): Promise<Poke> {
+  // dispara as duas requisições em paralelo
+  const [pokRes, specRes] = await Promise.all([
+    api.get<PokemonResponse>(`pokemon/${idOrName}`),
+    api.get<SpeciesResponse>(`pokemon-species/${idOrName}`),
+  ]);
   
     const pokemonData = pokRes.data;
     const speciesData = specRes.data;
   
     // name em inglês
     const nameEN =
-      speciesData.names.find(n => n.language.name === 'en')?.name ??
-      `#${id}`;
+    speciesData.names.find((n) => n.language.name === 'en')?.name ?? `${idOrName}`;
   
     // flavor_text em inglês, versão black
     const flavorEntry = speciesData.flavor_text_entries.find(
@@ -65,7 +54,7 @@ export async function fetchPokeDetail(id: number): Promise<Poke> {
     const sprite = pokemonData.sprites.front_default;
   
     return {
-      id,
+      id: pokemonData.id,
       name: nameEN,
       flavor_text: flavorText,
       types,
