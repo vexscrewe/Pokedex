@@ -30,7 +30,7 @@ export function Home(){
     return (
         <Container>
 
-            <Title>Teste</Title>
+            <Title>Pokedex</Title>
 
             <SearchBox>
                 <Input
