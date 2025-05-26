@@ -27,7 +27,7 @@ export function Home(){
             <SearchBox>
                 <Input
                     type= "text"
-                    placeholder= "Buscar prato..."
+                    placeholder= "Buscar pokemon..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />

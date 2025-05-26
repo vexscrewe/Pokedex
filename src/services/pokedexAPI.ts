@@ -7,7 +7,7 @@ interface PokeResponse {
 }
 
 const api = axios.create({
-    baseURL: 'https://pokeapi.co/api/v2/'
+    baseURL: 'https://pokeapi.co/api/v2/pokemon'
 })
 
 export async function fetchPokes (search = '') {
@@ -17,6 +17,7 @@ export async function fetchPokes (search = '') {
         return response.data.pokes ?? []
     } catch (error) {
         console.log('Erro ao buscar pokemons: ', error);
+        return[];
     }
 
 }
