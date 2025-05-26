@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { fetchPokesById } from "../services/pokedexAPI"
-import { Container, Info, Title } from "./PokemonDetails.styled"
+import { fetchPokeDetail} from "../services/pokedexAPI"
+import { Container, Info, Title, Image } from "./PokemonDetails.styled"
 import type { Poke } from "../types/Poke"
 
 export function PokemonDetails(){
@@ -10,12 +10,12 @@ export function PokemonDetails(){
     const [poke, setPoke] = useState<Poke | null>(null)
 
     useEffect(() => {
-        if(id) {
-            fetchPokesById(id).then(setPoke)
-        }
-    }, [id])
+        if (!id) return;                       // sem id não faz nada
+        const numericId = parseInt(id, 10);    // converte “1” → 1
+        fetchPokeDetail(numericId).then(setPoke);
+      }, [id]);
 
-    if (poke!) return <p>Carregando...</p>
+    if (!poke) return <p>Carregando...</p>
 
     return(
         <Container>

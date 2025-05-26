@@ -80,6 +80,7 @@ export async function fetchPokesById (id : number) {
         return response.data.pokes?.[0] ?? null
     } catch (error) {
         console.log('Erro ao buscar detalhes do pokemon: ', error);
+        return null;
     }
 
 }
