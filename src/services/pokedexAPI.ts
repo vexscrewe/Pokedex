@@ -6,9 +6,6 @@ const api = axios.create({
     baseURL: 'https://pokeapi.co/api/v2/'
 })
 
-interface PokeResponse {
-    pokes: Poke[] | null;
-}
 
 interface PokemonResponse {
     id:number;
@@ -61,15 +58,3 @@ export async function fetchPokeDetail(idOrName: string | number): Promise<Poke> 
       sprite,
     };
   }
-
-export async function fetchPokesById (id : number) {
-    
-    try {
-        const response = await api.get<PokeResponse>(`lookup.php?s=${id}`)
-        return response.data.pokes?.[0] ?? null
-    } catch (error) {
-        console.log('Erro ao buscar detalhes do pokemon: ', error);
-        return null;
-    }
-
-}

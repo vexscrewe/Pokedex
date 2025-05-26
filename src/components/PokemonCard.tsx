@@ -14,10 +14,11 @@ export function PokeCard ({poke}: Props){
     
     return(
         <Card>
-            <Link to={`/poke/${poke.id}`} />
-            <Image src={poke.sprite} />
-            <Title>{poke.name}</Title>
-            <Info>{displayTypes}</Info>
+            <Link to={`/poke/${poke.id}`} >
+                <Image src={poke.sprite} />
+                <Title>{poke.name}</Title>
+                <Info>{displayTypes}</Info>
+            </Link>
         </Card>
     )
 
